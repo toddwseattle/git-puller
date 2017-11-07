@@ -18,6 +18,8 @@
       <h3>Howdy, {{ user.displayName }}</h3>
       <img  [src]="user.photoUrl">
       <p>UID: {{ user.uid }}</p>
+      <p>Github user name: {{user.ghUser.login}}</p>
+      <p>Github web page <a [href]="user.ghUser.html_url">click here</a></p>
       <p>email: {{user.email}}</p>
       <button (click)="auth.signOut()">Logout</button>
   </div>

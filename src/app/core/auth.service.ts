@@ -39,21 +39,23 @@ export class AuthService {
   private oAuthLogin(provider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
-        this.updateUserData(credential.user);
+        this.updateUserData(credential);
       })
       .catch( err => {
         console.log('error on login: ' + err);
       });
   }
 
-  private updateUserData(user) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+  private updateUserData(credential) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${credential.user.uid}`);
 
     const data: IUser = {
-      uid: user.uid,
-      email: user.email,
-      photoUrl: user.photoURL,
-      displayName: user.displayName,
+      uid: credential.user.uid,
+      email: credential.user.email,
+      photoUrl: credential.user.photoURL,
+      displayName: credential.user.displayName,
+      ghAccessToken: credential.credential.accessToken,
+      ghUser: credential.additionalUserInfo.profile
     };
 
     return userRef.set(data);
