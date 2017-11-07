@@ -41,3 +41,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+# secrets I don't want committed
+secrets.ts
