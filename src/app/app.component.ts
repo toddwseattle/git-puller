@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from './core/auth.service';
+import { GhReporgService } from './core/gh-reporg.service';
+import { Observable } from 'rxjs/Observable';
+import { IghOrg } from './core/ghobjects';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +11,14 @@ import { AuthService } from './core/auth.service';
 })
 export class AppComponent {
   title = 'app';
-
-  constructor(public auth: AuthService) {
+  orgs$: Observable<IghOrg[]> = Observable.of(null);
+  constructor(public auth: AuthService, public ghs: GhReporgService) {
   }
 
   doLogin() {
     this.auth.githubLogin();
 
   }
+
+
 }

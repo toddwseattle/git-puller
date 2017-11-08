@@ -1,29 +1,27 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <mat-toolbar color="primary">
   <span>Git Puller</span>
+    <div class="toolbar-button">
+    <a mat-button routerLink="/">Home</a>
+    <a mat-button routerLink="/profile">Profile</a>
+    <a mat-button routerLink="/about">About</a>
+    </div>
     <span class="tb-spacer"></span>
     <mat-icon class="pad-icon">favorite</mat-icon>
-    <button mat-button-raised (click)="doLogin()">Login <img src="/assets/images/GitHub-Mark-32px.png" alt="github"></button>
+    <div *ngIf="auth.user | async; then authenticated else nologon">
+      <!-- template will replace this div -->
+    </div>
+    <ng-template #nologon>
+      <button mat-button-raised (click)="doLogin()">Login <img src="/assets/images/GitHub-Mark-32px.png" alt="github"></button>
+    </ng-template>
+    <!-- User logged in -->
+    <ng-template #authenticated>
+      <div *ngIf="auth.user | async as user">
+          <img mat-card-avatar [src]="(user | async)?.photoURL">
+          {{(user | async)?.displayName}} (<a [href]="user.ghUser.html_url">{{user.ghUser.login}})</a>
+      </div>
+    </ng-template>
 </mat-toolbar>
-<div *ngIf="auth.user | async; then authenticated else guest">
-  <!-- template will replace this div -->
-</div>
-<ng-template #guest>
-  <h3>Howdy, GUEST</h3>
-  <p>Login to get started...</p>
-</ng-template>
-<!-- User logged in -->
-<ng-template #authenticated>
-  <div *ngIf="auth.user | async as user">
-      <h3>Howdy, {{ user.displayName }}</h3>
-      <img  [src]="user.photoUrl">
-      <p>UID: {{ user.uid }}</p>
-      <p>Github user name: {{user.ghUser.login}}</p>
-      <p>Github web page <a [href]="user.ghUser.html_url">click here</a></p>
-      <p>email: {{user.email}}</p>
-      <button (click)="auth.signOut()">Logout</button>
-  </div>
-</ng-template>
 
 <div fxLayout="column" class="content-area" >
   <router-outlet fxFlex></router-outlet>
