@@ -8,17 +8,23 @@
 <!-- User logged in -->
 <ng-template #authenticated>
   <div *ngIf="auth.user | async as user">
-      <h3>Howdy, {{ user.displayName }}</h3>
-      <img  [src]="user.photoUrl">
-      <p>UID: {{ user.uid }}</p>
-      <p>Github user name: {{user.ghUser.login}}</p>
-      <p>Github web page <a [href]="user.ghUser.html_url">click here</a></p>
+    <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ user.displayName }}</mat-card-title>
+      <mat-card-subtitle><a [href]="user.ghUser.html_url">{{user.ghUser.login}}</a></mat-card-subtitle>
+    </mat-card-header>
       <p>email: {{user.email}}</p>
-      <button (click)="getOrgs()">Get Orgs</button>
-      <button (click)="auth.signOut()">Logout</button>
+      <button mat-raised-button (click)="getOrgs()">Get Orgs</button>
+      <button mat-raised-button (click)="getRepos()">Get Repos</button>
+      <button mat-raised-button (click)="auth.signOut()">Logout</button>
       <ul>
         <li *ngFor="let o of (orgs$ | async)">{{o.login}}: {{o.description}}</li>
       </ul>
-    </div>
+      <ul>
+          <li *ngFor="let r of (repos$ | async)">{{r.name}}: {{r.description}}</li>
+        </ul>
+    </mat-card>
+  </div>  
+    
 </ng-template>
 

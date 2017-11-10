@@ -33,6 +33,7 @@ export class AuthService {
 
   githubLogin() {
     const provider = new firebase.auth.GithubAuthProvider();
+    provider.addScope('repo');
     return this.oAuthLogin(provider);
   }
 

@@ -7,8 +7,7 @@
     <a mat-button routerLink="/about">About</a>
     </div>
     <span class="tb-spacer"></span>
-    <mat-icon class="pad-icon">favorite</mat-icon>
-    <div *ngIf="auth.user | async; then authenticated else nologon">
+    <div *ngIf="auth.user | async; then authenticated else nologon" fxLayout="row" >
       <!-- template will replace this div -->
     </div>
     <ng-template #nologon>
@@ -16,10 +15,17 @@
     </ng-template>
     <!-- User logged in -->
     <ng-template #authenticated>
-      <div *ngIf="auth.user | async as user">
-          <img mat-card-avatar [src]="(user | async)?.photoURL">
-          {{(user | async)?.displayName}} (<a [href]="user.ghUser.html_url">{{user.ghUser.login}})</a>
+      <a mat-button routerLink="/profile">
+      <div *ngIf="auth.user | async as user"  class="mat-typography">
+        <div>
+          <img width="30px" height="30px" [src]="user?.photoUrl">
+        </div>
+        <div fxLayout="column" fxLayoutAlign="start center">
+            <div class="mat-caption">{{user?.displayName}}</div> 
+            <div class="mat-caption">(<a [href]="user.ghUser.html_url">{{user.ghUser.login}}</a>)</div>
+        </div>
       </div>
+    </a>
     </ng-template>
 </mat-toolbar>
 
