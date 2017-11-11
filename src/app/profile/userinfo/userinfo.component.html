@@ -14,14 +14,14 @@
       <mat-card-subtitle><a [href]="user.ghUser.html_url">{{user.ghUser.login}}</a></mat-card-subtitle>
     </mat-card-header>
       <p>email: {{user.email}}</p>
-      <button mat-raised-button (click)="getOrgs()">Get Orgs</button>
       <button mat-raised-button (click)="getRepos()">Get Repos</button>
       <button mat-raised-button (click)="auth.signOut()">Logout</button>
-      <ul>
-        <li *ngFor="let o of (orgs$ | async)">{{o.login}}: {{o.description}}</li>
+      <ul *ngIf="(auth.user)">
+        <li *ngFor="let o of (getOrgs$() | async)">{{o.login}}: {{o.description}}</li>
       </ul>
+      <p *ngIf="(repos$ | async)">Repositories: {{(repos$ | async)?.length}}</p>
       <ul>
-          <li *ngFor="let r of (repos$ | async)">{{r.name}}: {{r.description}}</li>
+          <li *ngFor="let r of (repos$ | async)">{{r.owner.login}} : {{r.name}}: {{r.description}}</li>
         </ul>
     </mat-card>
   </div>  

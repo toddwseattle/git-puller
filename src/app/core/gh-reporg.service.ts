@@ -10,6 +10,8 @@ import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firesto
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/observable/forkJoin';
 
 
 import { IUser } from './user';
@@ -90,22 +92,51 @@ export class GhReporgService {
     const USERORGS = `/users/${OrgUser}/orgs`;
     let command = this.GITAPI;
     command += (OrgUser == null) ?  CURUSERORGS  : USERORGS;
-    return this.http.get<IghOrg[]>(command,  {headers: this.accept, params: {'access_token': this.token}});
+    if (this.token) {
+      return this.http.get<IghOrg[]>(command,  {headers: this.accept, params: {'access_token': this.token}});
+    } else {
+      return Observable.of<IghOrg[]>(null);
+    }
 
   }
-
+  private setDefaultParams(): HttpParams {
+    const pars = new HttpParams().set('access_token', this.token);
+    pars.set('per_page', '100');
+    return(pars);
+  }
   public GetRepos(OrgUser?: string): Observable<IghRepo[]> {
     const CURUSERREPOS = '/user/repos';
     const USERREPOS = `/users/${OrgUser}/repos`;
     let command = this.GITAPI;
     command += (OrgUser == null) ?  CURUSERREPOS  : USERREPOS;
-    const pars: HttpParams = new HttpParams().set('access_token', this.token);
-    pars.set('per_page', '100');
+    const pars = this.setDefaultParams();
     return this.http.get<IghRepo[]>(command,  {observe: 'response', headers: this.accept, params: pars})
-      .switchMap(resp => {
+    .mergeMap(resp => {
         this.linkheaders = new GhLinks(resp.headers.get('Link'));
-        console.log(resp.headers.get('Link'));
-        return Observable.of<IghRepo[]>(resp.body);
+        let nextlink = '';
+        let lastlink = '';
+        let lastpage = 0;
+        let nextpage = 0;
+        this.linkheaders.links.forEach(l => {
+          if (l.rel === 'last') {
+            lastlink = l.link;
+            lastpage = l.page;
+          } else if (l.rel === 'next') {
+            nextlink = l.link;
+            nextpage = l.page;
+          }
+        });
+        const pagesGets: Observable<IghRepo[]>[] = [];
+        for (let curpage = nextpage; curpage <= lastpage; curpage++) {
+          const prs = this.setDefaultParams();
+          prs.set('page', curpage.toString());
+          pagesGets.push(this.http.get<IghRepo[]>(command,  { headers: this.accept, params: prs}));
+        }
+        return(Observable.forkJoin(Observable.of<IghRepo[]>(resp.body), ...pagesGets)
+              .flatMap((value: IghRepo[][]) => {
+                  const foo: IghRepo[] = [];
+                  return(Observable.of(foo.concat(...value)));
+              }));
       });
   }
 }
