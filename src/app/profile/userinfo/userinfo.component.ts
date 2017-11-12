@@ -14,7 +14,7 @@ import { IUser, IGHUser } from '../../core/user';
 export class UserinfoComponent implements OnInit {
   user: IUser = null;
   private usersub: Subscription;
-  orgs$: Observable<IghOrg[]> = null;
+  orgs$: Observable<IghOrg[]> = Observable.of<IghOrg[]>(null);
   repos$: Observable<IghRepo[]> = Observable.of(null);
   constructor(public auth: AuthService, public ghs: GhReporgService) {
   }
@@ -22,6 +22,8 @@ export class UserinfoComponent implements OnInit {
   ngOnInit() {
     this.usersub = this.auth.user.subscribe( u => {
       this.user = u;
+      this.orgs$ = this.ghs.GetOrgs();
+      this.repos$ = this.ghs.GetRepos(u.ghUser.login);
     });
   }
 
@@ -37,6 +39,9 @@ export class UserinfoComponent implements OnInit {
   getRepos() {
     if (this.user != null) {
       this.repos$ = this.ghs.GetRepos(this.user.ghUser.login);
+      return true;
+    } else {
+      return false;
     }
   }
 }

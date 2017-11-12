@@ -16,13 +16,16 @@
       <p>email: {{user.email}}</p>
       <button mat-raised-button (click)="getRepos()">Get Repos</button>
       <button mat-raised-button (click)="auth.signOut()">Logout</button>
-      <ul *ngIf="(auth.user)">
-        <li *ngFor="let o of (getOrgs$() | async)">{{o.login}}: {{o.description}}</li>
-      </ul>
-      <p *ngIf="(repos$ | async)">Repositories: {{(repos$ | async)?.length}}</p>
-      <ul>
+      <div *ngIf="user!=null">
+        <h3>Organizations:</h3>
+        <ul >
+          <li *ngFor="let o of (orgs$ | async)">{{o.login}}: {{o.description}}</li>
+        </ul>
+        <h3 *ngIf="(repos$ | async)">Repositories: {{(repos$ | async)?.length}}</h3>
+        <ul>
           <li *ngFor="let r of (repos$ | async)">{{r.owner.login}} : {{r.name}}: {{r.description}}</li>
         </ul>
+      </div>
     </mat-card>
   </div>  
     
