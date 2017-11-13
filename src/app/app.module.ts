@@ -17,6 +17,7 @@ import { appRoutes } from './app-routes';
 import { AboutComponent } from './about/about.component';
 
 import { MatDesignModule } from './matdesign.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { MatDesignModule } from './matdesign.module';
     ProfileModule,
     HttpClientModule,
     MatDesignModule,
+    FlexLayoutModule,
     AngularFireModule.initializeApp(environment.firebase),
     RouterModule.forRoot(
       appRoutes,

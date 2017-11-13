@@ -40,7 +40,10 @@ export class AuthService {
   private oAuthLogin(provider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
-        this.updateUserData(credential);
+        this.updateUserData(credential)
+          .catch(err => {
+            console.log('error un cred update' + err);
+          });
       })
       .catch( err => {
         console.log('error on login: ' + err);

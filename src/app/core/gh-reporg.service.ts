@@ -127,10 +127,13 @@ export class GhReporgService {
           }
         });
         const pagesGets: Observable<IghRepo[]>[] = [];
-        for (let curpage = nextpage; curpage <= lastpage; curpage++) {
+
+        if (lastpage > nextpage) {
+          for (let curpage = nextpage; curpage <= lastpage; curpage++) {
           const prs = this.setDefaultParams();
           prs.set('page', curpage.toString());
           pagesGets.push(this.http.get<IghRepo[]>(command,  { headers: this.accept, params: prs}));
+          }
         }
         return(Observable.forkJoin(Observable.of<IghRepo[]>(resp.body), ...pagesGets)
               .flatMap((value: IghRepo[][]) => {

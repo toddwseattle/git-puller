@@ -1,0 +1,57 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title><h3 *ngIf="(Repos | async)">Repositories: {{(Repos | async)?.length}}</h3></mat-card-title>
+    </mat-card-header>
+<ul>
+  <li *ngFor="let r of (Repos | async)">{{r.owner.login}} : {{r.name}}: {{r.description}}</li>
+</ul>
+<div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource" matSort>
+  
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+  
+      <!-- Login or Org Owner Column -->
+      <ng-container matColumnDef="loginOrOrg">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Owner </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.owner.login}} </mat-cell>
+      </ng-container>
+  
+      <!-- Repo Name -->
+      <ng-container matColumnDef="repoName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.name}}</mat-cell>
+      </ng-container>
+  
+      <!-- Description Column -->
+      <ng-container matColumnDef="repoDescription">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.description}} </mat-cell>
+      </ng-container>
+  
+      <!-- Issues Column -->
+      <ng-container matColumnDef="repoIssues">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Issues </mat-header-cell>
+        <mat-cell *matCellDef="let row" > {{row.open_issues_count}} </mat-cell>
+      </ng-container>
+      <!-- Size Column -->
+      <ng-container matColumnDef="repoSize">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Size</mat-header-cell>
+          <mat-cell *matCellDef="let row" > {{row.size}} </mat-cell>
+        </ng-container>
+  
+      <!-- Description Topics -->
+      <ng-container matColumnDef="repoTopics">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Topics </mat-header-cell>
+          <mat-cell *matCellDef="let row"><span *ngFor="let t of row.tags">{{t}} </span>  </mat-cell>
+      </ng-container>    
+
+      <!-- Description Last Updated -->
+      <ng-container matColumnDef="repoUpdated">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Updated </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.updated_at}} </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>

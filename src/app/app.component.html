@@ -16,7 +16,7 @@
     <!-- User logged in -->
     <ng-template #authenticated>
       <a mat-button routerLink="/profile">
-      <div *ngIf="auth.user | async as user"  class="mat-typography">
+      <div *ngIf="auth.user | async as user" fxLayout="row"  class="mat-typography">
         <div>
           <img width="30px" height="30px" [src]="user?.photoUrl">
         </div>

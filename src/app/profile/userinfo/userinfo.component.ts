@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Input, Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -12,36 +12,13 @@ import { IUser, IGHUser } from '../../core/user';
   styleUrls: ['./userinfo.component.css']
 })
 export class UserinfoComponent implements OnInit {
-  user: IUser = null;
-  private usersub: Subscription;
+ @Input() user: IUser;
   orgs$: Observable<IghOrg[]> = Observable.of<IghOrg[]>(null);
-  repos$: Observable<IghRepo[]> = Observable.of(null);
   constructor(public auth: AuthService, public ghs: GhReporgService) {
   }
 
   ngOnInit() {
-    this.usersub = this.auth.user.subscribe( u => {
-      this.user = u;
       this.orgs$ = this.ghs.GetOrgs();
-      this.repos$ = this.ghs.GetRepos(u.ghUser.login);
-    });
   }
 
-  OnDestroy() {
-    this.usersub.unsubscribe();
-  }
-
-  getOrgs$() {
-    this.orgs$ = this.ghs.GetOrgs();
-    return(this.orgs$);
-  }
-
-  getRepos() {
-    if (this.user != null) {
-      this.repos$ = this.ghs.GetRepos(this.user.ghUser.login);
-      return true;
-    } else {
-      return false;
-    }
-  }
 }

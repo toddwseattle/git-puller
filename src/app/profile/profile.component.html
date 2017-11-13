@@ -1,1 +1,4 @@
-<app-userinfo></app-userinfo>
+<app-userinfo *ngIf="user" [user]="user"></app-userinfo>
+<div *ngIf="user&&repos$" >
+<app-repo-list [Repos]="repos$"></app-repo-list>
+</div>
