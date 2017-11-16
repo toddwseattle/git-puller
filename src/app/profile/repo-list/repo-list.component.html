@@ -2,9 +2,7 @@
     <mat-card-header>
       <mat-card-title><h3 *ngIf="(Repos | async)">Repositories: {{(Repos | async)?.length}}</h3></mat-card-title>
     </mat-card-header>
-<ul>
-  <li *ngFor="let r of (Repos | async)">{{r.owner.login}} : {{r.name}}: {{r.description}}</li>
-</ul>
+
 <div class="example-container mat-elevation-z8">
     <mat-table #table [dataSource]="dataSource" matSort>
   

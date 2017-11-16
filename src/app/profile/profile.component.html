@@ -1,4 +1,9 @@
-<app-userinfo *ngIf="user" [user]="user"></app-userinfo>
-<div *ngIf="user&&repos$" >
-<app-repo-list [Repos]="repos$"></app-repo-list>
+<div fxLayout="row"></div>
+
+<app-userinfo  fxFlex="50" *ngIf="user!=null" [user]="user"></app-userinfo>
+<div *ngIf="user&&(orgs$ | async)">
+    <app-org-drop fxFlex="50" [orgs]="orgs$" (selectedOrg)="selectedOrg($event)"></app-org-drop>
+</div>
+<div *ngIf="user&&(repos$ | async)" >
+    <app-repo-list fxFlex="100" [Repos]="repos$"></app-repo-list>
 </div>

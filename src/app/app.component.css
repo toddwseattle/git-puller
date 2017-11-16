@@ -5,3 +5,13 @@
 .tb-spacer {
     flex: 1 1 auto;
 }
+.toolbar-button-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+.home-footer {
+    background-color: purple;
+    border-width: 2px;
+    border-color: black;
+}

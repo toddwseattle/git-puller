@@ -1,34 +1,42 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<mat-toolbar color="primary">
-  <span>Git Puller</span>
-    <div class="toolbar-button">
-    <a mat-button routerLink="/">Home</a>
-    <a mat-button routerLink="/profile">Profile</a>
-    <a mat-button routerLink="/about">About</a>
-    </div>
-    <span class="tb-spacer"></span>
-    <div *ngIf="auth.user | async; then authenticated else nologon" fxLayout="row" >
-      <!-- template will replace this div -->
-    </div>
-    <ng-template #nologon>
-      <button mat-button-raised (click)="doLogin()">Login <img src="/assets/images/GitHub-Mark-32px.png" alt="github"></button>
-    </ng-template>
-    <!-- User logged in -->
-    <ng-template #authenticated>
-      <a mat-button routerLink="/profile">
-      <div *ngIf="auth.user | async as user" fxLayout="row"  class="mat-typography">
-        <div>
-          <img width="30px" height="30px" [src]="user?.photoUrl">
+<div fxLayout="column" fxLayoutGap="20px" fxFlex  class="mat-typography">
+  <div fxFlex>
+    <mat-toolbar fxLayout="row" color="primary">
+      <span>Git Puller</span>
+      <div class="toolbar-button">
+      <a mat-button routerLink="/">Home</a>
+      <a mat-button routerLink="/profile">Profile</a>
+      <a mat-button routerLink="/about">About</a>
+      <span fxFlex></span>
+        <div *ngIf="auth.user | async; then authenticated else nologon" >
+          <!-- template will replace this div -->
         </div>
-        <div fxLayout="column" fxLayoutAlign="start center">
-            <div class="mat-caption">{{user?.displayName}}</div> 
-            <div class="mat-caption">(<a [href]="user.ghUser.html_url">{{user.ghUser.login}}</a>)</div>
-        </div>
-      </div>
-    </a>
-    </ng-template>
-</mat-toolbar>
-
-<div fxLayout="column" class="content-area" >
-  <router-outlet fxFlex></router-outlet>
+        <ng-template #nologon>
+          <button mat-button-raised (click)="doLogin()">Login <img src="/assets/images/GitHub-Mark-32px.png" alt="github"></button>
+        </ng-template>
+        <!-- User logged in -->
+        <ng-template #authenticated>
+          <a mat-button routerLink="/profile">
+          <div *ngIf="auth.user | async as user" fxLayout="row" >
+            <div>
+              <img width="30px" height="30px" [src]="user?.photoUrl">
+            </div>
+            <div fxLayout="column" fxLayoutAlign="start center">
+                <div class="mat-caption">{{user?.displayName}}</div> 
+                <div class="mat-caption">(<a [href]="user.ghUser.html_url">{{user.ghUser.login}}</a>)</div>
+            </div>
+          </div>
+        </a>
+        </ng-template>
+      </div>  
+    </mat-toolbar>
 </div>
+<div fxFlex class="content-area" >
+  <router-outlet ></router-outlet>
+</div>
+<mat-card>
+<div class="home-footer" fxFlex fxLayout="row" fxLayoutAlign="space-between start" >
+  <a fxFlex routerLink="/about">About</a>
+  <p fxFlex >Copyright Todd Warren</p>
+  <a fxFlex href="https://www.toddwseattle.com">toddwseattle.com</a>
+</div>
+</mat-card>

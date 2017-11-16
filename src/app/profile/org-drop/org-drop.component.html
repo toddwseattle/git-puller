@@ -1,0 +1,14 @@
+ 
+<div *ngIf="(userNorg | async)" fxLayout="row">
+    <mat-select fxFlex="20"  placeholder="Organization" [(value)]="orgPick">
+  <mat-option *ngFor="let o of (userNorg | async)" [value]="o">
+    {{ o.login }}
+  </mat-option>
+</mat-select>
+ <ng-container *ngIf="!orgPick; else orgDescTemp">
+  Pick an Organization
+</ng-container>
+<ng-template #orgDescTemp>
+ <span fxFlex="30" *ngIf="orgPick.description"></span> ( {{orgPick?.description}} )  <button fxFlex="10" mat-raised-button (click)="orgChange(orgPick)">Get Repos</button> 
+</ng-template>
+</div>

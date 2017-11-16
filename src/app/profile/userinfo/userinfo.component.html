@@ -14,12 +14,7 @@
       <mat-card-subtitle><a [href]="user.ghUser.html_url">{{user.ghUser.login}}</a></mat-card-subtitle>
     </mat-card-header>
       <p>email: {{user.email}}</p>
-      <div *ngIf="user!=null">
-        <h3>Organizations:</h3>
-        <ul >
-          <li *ngFor="let o of (orgs$ | async)">{{o.login}}: {{o.description}}</li>
-        </ul>
-      </div>
+      <p>{{user.ghUser.bio}}</p>
     </mat-card>
   </div>  
     

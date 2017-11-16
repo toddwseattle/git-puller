@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -22,14 +22,20 @@ export class ProfileComponent implements OnInit {
       this.user = u;
       this.orgs$ = this.ghs.GetOrgs();
       this.repos$ = this.ghs.GetRepos(u.ghUser.login);
+      console.log('profile: usr loaded');
     });
   }
 
   ngOnInit() {
-
+   //  this.orgs$.subscribe( o => { o.forEach( (r: IghOrg) =>{ console.log('org: %s', r.login); }); });
+   console.log('profile: init run');
   }
 
   OnDestroy() {
     this.usersub.unsubscribe();
+  }
+  selectedOrg(o: IghOrg) {
+    console.log(o.login);
+    this.repos$ = this.ghs.GetRepos(o.login);
   }
 }

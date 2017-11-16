@@ -93,7 +93,8 @@ export class GhReporgService {
     let command = this.GITAPI;
     command += (OrgUser == null) ?  CURUSERORGS  : USERORGS;
     if (this.token) {
-      return this.http.get<IghOrg[]>(command,  {headers: this.accept, params: {'access_token': this.token}});
+      const x = this.http.get<IghOrg[]>(command,  {headers: this.accept, params: {'access_token': this.token}});
+      return x;
     } else {
       return Observable.of<IghOrg[]>(null);
     }

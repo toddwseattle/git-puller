@@ -13,12 +13,12 @@ import { IUser, IGHUser } from '../../core/user';
 })
 export class UserinfoComponent implements OnInit {
  @Input() user: IUser;
-  orgs$: Observable<IghOrg[]> = Observable.of<IghOrg[]>(null);
   constructor(public auth: AuthService, public ghs: GhReporgService) {
+    console.log('userinfo loaded');
   }
 
   ngOnInit() {
-      this.orgs$ = this.ghs.GetOrgs();
+    console.log('userinfo initialized');
   }
 
 }
