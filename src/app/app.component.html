@@ -1,13 +1,13 @@
 <div fxLayout="column" fxLayoutGap="20px" fxFlex  class="mat-typography">
   <div fxFlex>
     <mat-toolbar fxLayout="row" color="primary">
-      <span>Git Puller</span>
-      <div class="toolbar-button">
+      <span fxFlex="15%">Git Puller</span>
+      <div class="toolbar-button" fxFlex="70%">
       <a mat-button routerLink="/">Home</a>
       <a mat-button routerLink="/profile">Profile</a>
       <a mat-button routerLink="/about">About</a>
       <span fxFlex></span>
-        <div *ngIf="auth.user | async; then authenticated else nologon" >
+        <div fxFlex="15%" *ngIf="auth.user | async; then authenticated else nologon" >
           <!-- template will replace this div -->
         </div>
         <ng-template #nologon>

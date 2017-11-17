@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MatToolbarModule, MatIconModule, MatButtonModule,
   MatCardModule, MatTableModule, MatSortModule,
@@ -18,6 +19,7 @@ import { MatToolbarModule, MatIconModule, MatButtonModule,
     MatSelectModule,
     MatCheckboxModule,
     FormsModule,
+    FlexLayoutModule,
     BrowserAnimationsModule
   ],
   declarations: [],
@@ -30,6 +32,7 @@ import { MatToolbarModule, MatIconModule, MatButtonModule,
     MatSortModule,
     MatSelectModule,
     MatCheckboxModule,
+    FlexLayoutModule,
     FormsModule,
     BrowserAnimationsModule
   ]
