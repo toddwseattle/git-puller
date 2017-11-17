@@ -34,6 +34,7 @@ export interface IghOrg  {
 
   export interface IghRepo {
     id: number;
+    selected?: boolean;
     owner: IghRepoOwner;
     name: string;
     full_name: string;

@@ -20,7 +20,7 @@ export class RepoListComponent implements OnInit {
   @Input() Repos: Observable<IghRepo[]>;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns = ['loginOrOrg', 'repoName', 'repoDescription',
+  displayedColumns = [ 'sCol', 'loginOrOrg',  'repoName', 'repoDescription',
                       'repoIssues', 'repoSize', 'repoUpdated'];
   repoDatabase: RepoDatabase;
   dataSource: RepoDataSource | null;
@@ -35,7 +35,9 @@ export class RepoListComponent implements OnInit {
     });
 
   }
-
+  addRepos() {
+    console.log('add repos clicked');
+  }
 }
 // see example: https://material.angular.io/components/table/overview
 export class RepoDatabase {

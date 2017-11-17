@@ -1,11 +1,16 @@
 .login-col {
-    flex: 0 0 15%;
+    flex: 0 0 10%;
+}
+.sel-col {
+    flex: 0 0 8%;
+    display: flex;
+    align-items: center;
 }
 .repo-name {
-    flex: 0 0 20%;
+    flex: 0 0 15%;
 }
 .repo-desc {
-    flex: 0 0 35%;
+    flex: 0 0 30%;
 }
 .repo-issue {
     flex: 0 0 5%;
@@ -14,7 +19,7 @@
     margin-right: 5px
 }
 .repo-size {
-    flex: 0 0 10%;
+    flex: 0 0 8%;
     display: flex;
     justify-content: flex-end;
     margin-right: 5px
