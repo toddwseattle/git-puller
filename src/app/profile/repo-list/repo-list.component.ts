@@ -77,10 +77,10 @@ export class RepoDataSource extends DataSource<any> {
 
       switch (this._sort.active) {
         case 'loginOrOrg': [propertyA, propertyB] = [a.owner.login, b.owner.login]; break;
-        case 'repoName': [propertyA, propertyB] = [a.name, b.name]; break;
+        case 'repoName': [propertyA, propertyB] = [a.name.toUpperCase(), b.name.toUpperCase()]; break;
         case 'repoIssues': [propertyA, propertyB] = [a.open_issues_count, b.open_issues_count]; break;
         case 'repoSize': [propertyA, propertyB] = [a.size, b.size]; break;
-        case 'repoUpaated': [propertyA, propertyB] = [a.updated_at, b.updated_at]; break;
+        case 'repoUpaated': [propertyA, propertyB] = [(new Date(a.updated_at)).getTime(), (new Date(b.updated_at)).getTime()]; break;
       }
 
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

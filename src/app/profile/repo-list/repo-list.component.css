@@ -1,0 +1,31 @@
+.login-col {
+    flex: 0 0 15%;
+}
+.repo-name {
+    flex: 0 0 20%;
+}
+.repo-desc {
+    flex: 0 0 35%;
+}
+.repo-issue {
+    flex: 0 0 5%;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 5px
+}
+.repo-size {
+    flex: 0 0 10%;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 5px
+}
+.repo-topics {
+    flex: 0 0 20%;
+}
+.repo-updated {
+    flex: 0 0 15%;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 5px
+}
+

@@ -11,43 +11,43 @@
   
       <!-- Login or Org Owner Column -->
       <ng-container matColumnDef="loginOrOrg">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Owner </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.owner.login}} </mat-cell>
+        <mat-header-cell class="login-col" *matHeaderCellDef mat-sort-header> Owner </mat-header-cell>
+        <mat-cell *matCellDef="let row" class="login-col"> {{row.owner.login}} </mat-cell>
       </ng-container>
   
       <!-- Repo Name -->
       <ng-container matColumnDef="repoName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.name}}</mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="repo-name"> Name </mat-header-cell>
+        <mat-cell *matCellDef="let row" class="repo-name"> {{row.name}}</mat-cell>
       </ng-container>
   
       <!-- Description Column -->
       <ng-container matColumnDef="repoDescription">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
-        <mat-cell *matCellDef="let row"> {{row.description}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="repo-desc"> Description </mat-header-cell>
+        <mat-cell *matCellDef="let row" class="repo-desc"> {{row.description}} </mat-cell>
       </ng-container>
   
       <!-- Issues Column -->
       <ng-container matColumnDef="repoIssues">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Issues </mat-header-cell>
-        <mat-cell *matCellDef="let row" > {{row.open_issues_count}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="repo-issue">Issues </mat-header-cell>
+        <mat-cell *matCellDef="let row" class="repo-issue" > {{row.open_issues_count | number}} </mat-cell>
       </ng-container>
       <!-- Size Column -->
       <ng-container matColumnDef="repoSize">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Size</mat-header-cell>
-          <mat-cell *matCellDef="let row" > {{row.size}} </mat-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header class="repo-size">Size</mat-header-cell>
+          <mat-cell *matCellDef="let row" class="repo-size"> {{row.size | number}} </mat-cell>
         </ng-container>
   
       <!-- Description Topics -->
       <ng-container matColumnDef="repoTopics">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Topics </mat-header-cell>
-          <mat-cell *matCellDef="let row"><span *ngFor="let t of row.tags">{{t}} </span>  </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="repo-topics"> Topics </mat-header-cell>
+          <mat-cell *matCellDef="let row" class="repo-topics"><span *ngFor="let t of row.tags">{{t}} </span>  </mat-cell>
       </ng-container>    
 
       <!-- Description Last Updated -->
       <ng-container matColumnDef="repoUpdated">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Updated </mat-header-cell>
-          <mat-cell *matCellDef="let row"> {{row.updated_at}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="repo-updated"> Updated </mat-header-cell>
+          <mat-cell *matCellDef="let row" class="repo-updated"> {{row.updated_at | date:'short'}} </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
