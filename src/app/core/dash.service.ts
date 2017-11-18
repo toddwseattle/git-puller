@@ -11,6 +11,7 @@ import { IghOrg, IghRepo, IghRepoOwner } from './ghobjects';
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from './auth.service';
+import { Subject } from 'rxjs/Subject';
 /**
  * DashService - Dashboard service for mangaging configs in Firestore
  */
@@ -18,20 +19,25 @@ import { AuthService } from './auth.service';
 export class DashService {
 
   private _favRepos: IghRepo[] = [];
+  private _favReposSubject: Subject<IghRepo[]>;
 
   constructor(private auth: AuthService, private afs: AngularFirestore,
-    private route: Router) { }
+    private route: Router) {
+      this._favReposSubject = new Subject<IghRepo[]>();
+     }
   public AddRepoFav(repo: IghRepo) {
     if (!this._favRepos.find(value => (value.name === repo.name))) {
       this._favRepos.push(repo);
+      this._favReposSubject.next(this._favRepos);
     }
   }
   public ClearRepos() {
     this._favRepos = [];
+    this._favReposSubject.next(this._favRepos);
   }
   public GetRepoFavs(query?: string): Observable<IghRepo[]> {
     if (!query) {
-      return Observable.of(this._favRepos);
+      return this._favReposSubject;
     } else {
       const _queried: IghRepo[] = [];
       this._favRepos.forEach( r => {
