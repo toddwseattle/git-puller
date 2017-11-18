@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <p>Favorite Repo sitories</p>
+    </mat-card-title> 
+  </mat-card-header>
+  <mat-card-content>
+    <ul>
+      <li *ngFor="let r of (favRepos | async)">
+        {{r.name}}
+      </li>
+    </ul>    
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>Clear</button>  
+  </mat-card-actions>
+</mat-card>

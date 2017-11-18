@@ -19,7 +19,7 @@
         <mat-cell *matCellDef="let row" class="login-col"> {{row.owner.login}} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="sCol">
-        <mat-header-cell class="sel-col" *matHeaderCellDef><button mat-fab (click)="addRepos()">Add</button></mat-header-cell>
+        <mat-header-cell class="sel-col" *matHeaderCellDef><button mat-mini-fab (click)="addRepos()">Add</button></mat-header-cell>
         <mat-cell *matCellDef="let row" class="sel-col"><span [innerHTML]='"&nbsp"'></span><mat-checkbox [(ngModel)]="row.selected"><span [innerHTML]='"&nbsp"'></span></mat-checkbox></mat-cell>
       </ng-container>
       <!-- Repo Name -->

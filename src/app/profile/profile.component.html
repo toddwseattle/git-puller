@@ -2,7 +2,7 @@
 <div fxFlex="50%">    
 <app-userinfo   *ngIf="user!=null" [user]="user"></app-userinfo>
 </div>
-<div fxFlex="50%"><p>fav repo area</p></div>
+<div fxFlex="50%"><app-fav-repo-list></app-fav-repo-list></div>
 <div fxFlex="100%" *ngIf="user&&(orgs$ | async)">
     <app-org-drop fxFlex="50" [orgs]="orgs$" (selectedOrg)="selectedOrg($event)"></app-org-drop>
 </div>

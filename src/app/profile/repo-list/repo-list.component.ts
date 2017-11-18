@@ -10,6 +10,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/merge';
+import { DashService } from '../../core/dash.service';
 @Component({
   selector: 'app-repo-list',
   templateUrl: './repo-list.component.html',
@@ -25,7 +26,7 @@ export class RepoListComponent implements OnInit {
   repoDatabase: RepoDatabase;
   dataSource: RepoDataSource | null;
   private _reposSub: Subscription;
-  constructor() {
+  constructor(public dash: DashService) {
   }
 
   ngOnInit() {
@@ -36,6 +37,11 @@ export class RepoListComponent implements OnInit {
 
   }
   addRepos() {
+    this.repoDatabase.data.forEach( r => {
+      if (r.selected) {
+        this.dash.AddRepoFav(r);
+      }
+    });
     console.log('add repos clicked');
   }
 }
