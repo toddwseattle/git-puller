@@ -26,6 +26,9 @@ export class DashService {
       this._favRepos.push(repo);
     }
   }
+  public ClearRepos() {
+    this._favRepos = [];
+  }
   public GetRepoFavs(query?: string): Observable<IghRepo[]> {
     if (!query) {
       return Observable.of(this._favRepos);

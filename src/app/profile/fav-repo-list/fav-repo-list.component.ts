@@ -17,4 +17,8 @@ export class FavRepoListComponent implements OnInit {
   ngOnInit() {
   }
 
+  clearFavRepos() {
+    this.dash.ClearRepos();
+  }
+
 }
