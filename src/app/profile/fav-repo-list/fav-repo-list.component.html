@@ -7,7 +7,7 @@
   <mat-card-content>
     <ul>
       <li *ngFor="let r of (favRepos | async)">
-        {{r.owner.login}}/{{r.name}}
+       <a  [href]="r.html_url" target="_blank"> {{r.owner.login}}/{{r.name}}</a>
       </li>
     </ul>    
   </mat-card-content>
