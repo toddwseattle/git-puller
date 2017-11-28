@@ -32,9 +32,10 @@ export class OrgDropComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  orgChange(o: IghOrg) {
-    console.log(o.login);
-    this.selectedOrg.emit(o);
+  orgSelSubmit(o: any) {
+    console.log(JSON.stringify(o.value));
+
+    this.selectedOrg.emit( (o.value.orgfree && (o.value.orgfree !== '')) ? o.value.orgfree : o.value.orgpick.login);
   }
   ngOnDestroy() {
     this.userSub.unsubscribe();

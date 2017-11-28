@@ -6,7 +6,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MatToolbarModule, MatIconModule, MatButtonModule,
   MatCardModule, MatTableModule, MatSortModule,
-  MatSelectModule, MatSelect, MatCheckboxModule } from '@angular/material';
+  MatSelectModule, MatSelect, MatInputModule, MatCheckboxModule } from '@angular/material';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,6 +18,7 @@ import { MatToolbarModule, MatIconModule, MatButtonModule,
     MatSortModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatInputModule,
     FormsModule,
     FlexLayoutModule,
     BrowserAnimationsModule
@@ -32,6 +33,7 @@ import { MatToolbarModule, MatIconModule, MatButtonModule,
     MatSortModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatInputModule,
     FlexLayoutModule,
     FormsModule,
     BrowserAnimationsModule

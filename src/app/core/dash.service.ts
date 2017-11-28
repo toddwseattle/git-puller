@@ -33,17 +33,18 @@ export class DashService {
         if (u) {
          this._userdash = afs.doc(this.DASHPATH + u.uid);
          this._userdash.valueChanges().subscribe((d: IDash) => {
-                if(d) {
+                if (d) {
                     this._lastupdate = d.lastUpdate;
-                    this._favReposSubject.next(d.favRepos)
-                  };
+                    this._favRepos = d.favRepos;
+                    this._favReposSubject.next(d.favRepos);
+                  }
                     });
         } else {
          this._userdash = null;
         }
       });
       this._favReposSubject = new Subject<IghRepo[]>();
-      
+
      }
   public AddRepoFav(repo: IghRepo) {
     if (!this._favRepos.find(value => (value.name === repo.name))) {

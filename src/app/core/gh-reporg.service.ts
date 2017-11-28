@@ -17,17 +17,22 @@ import 'rxjs/add/observable/forkJoin';
 import { IUser } from './user';
 import { IghOrg, IghRepo, IghRepoOwner } from './ghobjects';
 import { AuthService } from './auth.service';
+import { Subject } from 'rxjs/Subject';
 
 interface GhLink {
   link: string;
-  rel: string;
   page: number;
 }
+
+interface  LinksMap {
+  [key: string]: GhLink;
+}
+
 // example header
 // "<https://api.github.com/user/repos?access_token=181ebe71c08918a4d6dc72573f56971f05e931b7&page=2>; rel="next",
 //  <https://api.github.com/user/repos?access_token=181ebe71c08918a4d6dc72573f56971f05e931b7&page=4>; rel="last""
 class GhLinks {
-  public links: GhLink[] = [];
+  public links: LinksMap = {};
   constructor(public raw?: string) {
     if (raw) {
       this.links = this.processRaw(raw);
@@ -47,8 +52,8 @@ class GhLinks {
     }
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
   }
-  processRaw(raw): GhLink[] {
-    const templink: GhLink[] = [];
+  processRaw(raw): LinksMap {
+    const templink: LinksMap = {};
     const rawsplit = raw.split(',');
     rawsplit.forEach( value => {
       const linksplit = value.split(';');
@@ -57,8 +62,8 @@ class GhLinks {
       let rl = (linksplit[1].split('='))[1];
       rl = rl.slice(1, rl.length - 1);
       const pge = parseInt(this.getParameterByName('page', lnk), 10);
-      const gh = {link: lnk, rel: rl, page: pge};
-      templink.push(gh);
+      const gh = {link: lnk,  page: pge};
+      templink[rl] = gh;
     });
     return(templink);
   }
@@ -101,8 +106,9 @@ export class GhReporgService {
 
   }
   private setDefaultParams(): HttpParams {
-    const pars = new HttpParams().set('access_token', this.token);
-    pars.set('per_page', '100');
+    let pars = new HttpParams().set('access_token', this.token);
+    pars = pars.append('per_page', '100');
+    const parmap = pars.toString();
     return(pars);
   }
   public GetRepos(OrgUser?: string): Observable<IghRepo[]> {
@@ -114,25 +120,15 @@ export class GhReporgService {
     return this.http.get<IghRepo[]>(command,  {observe: 'response', headers: this.accept, params: pars})
     .mergeMap(resp => {
         this.linkheaders = new GhLinks(resp.headers.get('Link'));
-        let nextlink = '';
-        let lastlink = '';
-        let lastpage = 0;
-        let nextpage = 0;
-        this.linkheaders.links.forEach(l => {
-          if (l.rel === 'last') {
-            lastlink = l.link;
-            lastpage = l.page;
-          } else if (l.rel === 'next') {
-            nextlink = l.link;
-            nextpage = l.page;
-          }
-        });
+        const nextlink = this.linkheaders.links['next'] ? this.linkheaders.links['next'].link : '';
+        const lastlink = this.linkheaders.links['last'] ? this.linkheaders.links['last'].link : '';
+        const lastpage = this.linkheaders.links['last'] ? this.linkheaders.links['last'].page : 0;
+        const nextpage = this.linkheaders.links['next'] ? this.linkheaders.links['next'].page : 0;
         const pagesGets: Observable<IghRepo[]>[] = [];
 
-        if (lastpage > nextpage) {
+        if ((lastpage>0)&&(lastpage >= nextpage) {
           for (let curpage = nextpage; curpage <= lastpage; curpage++) {
-          const prs = this.setDefaultParams();
-          prs.set('page', curpage.toString());
+          const prs = this.setDefaultParams().append('page', curpage.toString());
           pagesGets.push(this.http.get<IghRepo[]>(command,  { headers: this.accept, params: prs}));
           }
         }
@@ -142,5 +138,5 @@ export class GhReporgService {
                   return(Observable.of(foo.concat(...value)));
               }));
       });
-  }
+    }
 }

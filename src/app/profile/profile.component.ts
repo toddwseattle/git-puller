@@ -34,8 +34,8 @@ export class ProfileComponent implements OnInit {
   OnDestroy() {
     this.usersub.unsubscribe();
   }
-  selectedOrg(o: IghOrg) {
-    console.log(o.login);
-    this.repos$ = this.ghs.GetRepos(o.login);
+  selectedOrg(login: string) {
+    console.log(login);
+    this.repos$ = this.ghs.GetRepos(login);
   }
 }

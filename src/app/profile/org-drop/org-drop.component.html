@@ -1,14 +1,20 @@
- 
 <div *ngIf="(userNorg | async)" fxLayout="row">
-    <mat-select fxFlex="20"  placeholder="Organization" [(value)]="orgPick">
-  <mat-option *ngFor="let o of (userNorg | async)" [value]="o">
-    {{ o.login }}
-  </mat-option>
-</mat-select>
+<form #orgSel="ngForm" (ngSubmit)="orgSelSubmit(orgSel)">
+  
+  <mat-select fxFlex="20"  placeholder="Organization" name="orgpick" ngModel>
+      <mat-option *ngFor="let o of (userNorg | async)" [value]="o">
+        {{ o.login }}
+      </mat-option>
+   </mat-select>
+ <mat-form-field>
+   <input matInput placeholder="Id or Org" value="" name="orgfree" ngModel>
+ </mat-form-field>
  <ng-container *ngIf="!orgPick; else orgDescTemp">
-  Pick an Organization
+  <p> Select or Enter an Organization</p>
 </ng-container>
-<ng-template #orgDescTemp>
- <span fxFlex="30" *ngIf="orgPick.description"></span> ( {{orgPick?.description}} )  <button fxFlex="10" mat-raised-button (click)="orgChange(orgPick)">Get Repos</button> 
-</ng-template>
+    <ng-template #orgDescTemp>
+        <span fxFlex="30" *ngIf="orgPick.description"></span> ( {{orgPick?.description}} ) 
+    </ng-template>
+<button type="submit" fxFlex="10" mat-raised-button color="primary" [disabled]="!orgSel.form.valid">Get</button>
+</form>
 </div>
