@@ -17,12 +17,14 @@ import { appRoutes } from './app-routes';
 import { AboutComponent } from './about/about.component';
 
 import { MatDesignModule } from './matdesign.module';
+import { DashComponent } from './dash/dash.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    AboutComponent
+    AboutComponent,
+    DashComponent
   ],
   imports: [
     BrowserModule,

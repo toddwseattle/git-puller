@@ -19,6 +19,8 @@ export class AppComponent {
     this.auth.githubLogin();
 
   }
-
+  logout() {
+    this.auth.signOut();
+  }
 
 }

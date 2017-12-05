@@ -78,7 +78,7 @@ export class GhReporgService {
   private user: Observable<IUser>;
   private token: string = null; // github token
   private GITAPI = 'https://api.github.com';
-  private accept= new HttpHeaders({'accept' : 'application/json'});
+  private jsonheader = new HttpHeaders({'accept' : 'application/json'});
   public linkheaders: GhLinks;
 
   constructor(private http: HttpClient, private as: AuthService) {
@@ -98,7 +98,7 @@ export class GhReporgService {
     let command = this.GITAPI;
     command += (OrgUser == null) ?  CURUSERORGS  : USERORGS;
     if (this.token) {
-      const x = this.http.get<IghOrg[]>(command,  {headers: this.accept, params: {'access_token': this.token}});
+      const x = this.http.get<IghOrg[]>(command,  {headers: this.jsonheader, params: {'access_token': this.token}});
       return x;
     } else {
       return Observable.of<IghOrg[]>(null);
@@ -106,9 +106,7 @@ export class GhReporgService {
 
   }
   private setDefaultParams(): HttpParams {
-    let pars = new HttpParams().set('access_token', this.token);
-    pars = pars.append('per_page', '100');
-    const parmap = pars.toString();
+    const pars = new HttpParams().set('per_page', '100');
     return(pars);
   }
   public GetRepos(OrgUser?: string): Observable<IghRepo[]> {
@@ -116,8 +114,10 @@ export class GhReporgService {
     const USERREPOS = `/users/${OrgUser}/repos`;
     let command = this.GITAPI;
     command += (OrgUser == null) ?  CURUSERREPOS  : USERREPOS;
-    const pars = this.setDefaultParams();
-    return this.http.get<IghRepo[]>(command,  {observe: 'response', headers: this.accept, params: pars})
+    const pars = this.setDefaultParams().append('visibility', 'private');
+    const hddrs = this.jsonheader.append('Authorization', 'token ' + this.token)
+                    .append('User-Agent','Mozilla/5.0');
+    return this.http.get<IghRepo[]>(command,  {observe: 'response', headers: hddrs, params: pars})
     .mergeMap(resp => {
         this.linkheaders = new GhLinks(resp.headers.get('Link'));
         const nextlink = this.linkheaders.links['next'] ? this.linkheaders.links['next'].link : '';
@@ -126,10 +126,10 @@ export class GhReporgService {
         const nextpage = this.linkheaders.links['next'] ? this.linkheaders.links['next'].page : 0;
         const pagesGets: Observable<IghRepo[]>[] = [];
 
-        if ((lastpage>0)&&(lastpage >= nextpage) {
+        if ((lastpage > 0) && (lastpage >= nextpage)) {
           for (let curpage = nextpage; curpage <= lastpage; curpage++) {
           const prs = this.setDefaultParams().append('page', curpage.toString());
-          pagesGets.push(this.http.get<IghRepo[]>(command,  { headers: this.accept, params: prs}));
+          pagesGets.push(this.http.get<IghRepo[]>(command,  { headers: hddrs, params: prs}));
           }
         }
         return(Observable.forkJoin(Observable.of<IghRepo[]>(resp.body), ...pagesGets)

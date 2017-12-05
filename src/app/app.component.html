@@ -5,6 +5,7 @@
       <div class="toolbar-button" fxFlex="70%">
       <a mat-button routerLink="/">Home</a>
       <a mat-button routerLink="/profile">Profile</a>
+      <a mat-button routerLink="/dash">Dashboard</a>
       <a mat-button routerLink="/about">About</a>
       <span fxFlex></span>
         <div fxFlex="15%" *ngIf="auth.user | async; then authenticated else nologon" >
@@ -13,7 +14,7 @@
         <ng-template #nologon>
           <button mat-button-raised (click)="doLogin()">Login <img src="/assets/images/GitHub-Mark-32px.png" alt="github"></button>
         </ng-template>
-        <!-- User logged in -->
+        <!-- User logged in --> 
         <ng-template #authenticated>
           <a mat-button routerLink="/profile">
           <div *ngIf="auth.user | async as user" fxLayout="row" >
@@ -26,6 +27,7 @@
             </div>
           </div>
         </a>
+        <button mat-raised-button (click)="logout()">Logout</button>
         </ng-template>
       </div>  
     </mat-toolbar>
