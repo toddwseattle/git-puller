@@ -18,13 +18,15 @@ import { AboutComponent } from './about/about.component';
 
 import { MatDesignModule } from './matdesign.module';
 import { DashComponent } from './dash/dash.component';
+import { RepotileComponent } from './repotile/repotile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AboutComponent,
-    DashComponent
+    DashComponent,
+    RepotileComponent
   ],
   imports: [
     BrowserModule,
