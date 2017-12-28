@@ -77,6 +77,7 @@ export class GhReporgService {
 
   private user: Observable<IUser>;
   private token: string = null; // github token
+  private userName: string = null; // github username
   private GITAPI = 'https://api.github.com';
   private jsonheader = new HttpHeaders({'accept' : 'application/json'});
   public linkheaders: GhLinks;
@@ -86,6 +87,7 @@ export class GhReporgService {
     this.user.subscribe( (u: IUser) => {
       if ( (u != null) && (u.ghAccessToken != null) ) {
         this.token = u.ghAccessToken;
+        this.userName = u.ghUser.login;
       } else {
         this.token = null;
       }
@@ -96,7 +98,7 @@ export class GhReporgService {
     const CURUSERORGS = '/user/orgs';
     const USERORGS = `/users/${OrgUser}/orgs`;
     let command = this.GITAPI;
-    command += (OrgUser == null) ?  CURUSERORGS  : USERORGS;
+    command += ((OrgUser == null) || (OrgUser === this.userName)) ?  CURUSERORGS  : USERORGS;
     if (this.token) {
       const x = this.http.get<IghOrg[]>(command,  {headers: this.jsonheader, params: {'access_token': this.token}});
       return x;
@@ -113,7 +115,7 @@ export class GhReporgService {
     const CURUSERREPOS = '/user/repos';
     const USERREPOS = `/users/${OrgUser}/repos`;
     let command = this.GITAPI;
-    command += (OrgUser == null) ?  CURUSERREPOS  : USERREPOS;
+    command += ((!OrgUser) || (OrgUser = this.userName)) ?  CURUSERREPOS  : USERREPOS;
     const pars = this.setDefaultParams();  // .append('visibility', 'private');
     const hddrs = this.jsonheader.append('Authorization', 'token ' + this.token)
                     .append('User-Agent', 'Mozilla/5.0');
