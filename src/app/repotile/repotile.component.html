@@ -1,9 +1,20 @@
-<div>
-  <h1>{{repo.name}}</h1>
-  <ul>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ul>
-</div>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <a [href]="repo.html_url">{{repo.name}}</a>      
+    </mat-card-title>
+    <mat-card-subtitle>
+      {{repo.description}}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <ul>
+      <li>Owner: <a [href]="repo.owner.url">{{repo.owner.login}}</a></li>
+      <li>Total Issues:<a [href]="repo.html_url+'/issues'"> {{repo.open_issues_count}}</a></li>
+      <li>Updated: {{repo.updated_at}}</li>
+    </ul>  
+  </mat-card-content>
+  <mat-card-actions>
+    
+  </mat-card-actions>
+</mat-card>

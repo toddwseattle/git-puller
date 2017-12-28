@@ -117,8 +117,7 @@ export class GhReporgService {
     let command = this.GITAPI;
     command += ((!OrgUser) || (OrgUser = this.userName)) ?  CURUSERREPOS  : USERREPOS;
     const pars = this.setDefaultParams();  // .append('visibility', 'private');
-    const hddrs = this.jsonheader.append('Authorization', 'token ' + this.token)
-                    .append('User-Agent', 'Mozilla/5.0');
+    const hddrs = this.jsonheader.append('Authorization', 'token ' + this.token);
     return this.http.get<IghRepo[]>(command,  {observe: 'response', headers: hddrs, params: pars})
     .mergeMap(resp => {
         this.linkheaders = new GhLinks(resp.headers.get('Link'));
