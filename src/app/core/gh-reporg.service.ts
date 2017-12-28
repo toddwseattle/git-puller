@@ -9,6 +9,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/forkJoin';
@@ -139,5 +140,12 @@ export class GhReporgService {
                   return(Observable.of(foo.concat(...value)));
               }));
       });
+    }
+    GetUpdatedRepos(repos: IghRepo[]): Observable<IghRepo[]> {
+      if (!repos) {return Observable.of(null); } else {
+        return Observable.from(repos)
+          .mergeMap(r => <Observable<IghRepo>> this.http.get(r.url))
+          .scan((rs, r) => rs.concat(r), []);
+      }
     }
 }
