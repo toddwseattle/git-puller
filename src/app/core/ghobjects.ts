@@ -112,3 +112,60 @@ export interface IghOrg  {
     subscribers_count: number;
     network_count: number;
   }
+export interface IghMilestone {
+  url: string;
+  html_url: string;
+  labels_url: string;
+  id: number;
+  number: number;
+  state: string;
+  title: string;
+  description: string;
+  creator: IghRepoOwner;
+  open_issues: number;
+  closed_issues: number;
+  created_at: string;
+  updated_at: string;
+  closed_at: string;
+  due_on: string;
+}
+
+export interface IghLabel {
+  id: number;
+  url: string;
+  name: string;
+  color: string;
+  default: boolean;
+}
+
+export interface IghPull  {
+  url: string;
+  html_url: string;
+  diff_url: string;
+  patch_url: string;
+}
+export interface IghIssue {
+  id: number;
+  url: string;
+  repository_url: string;
+  labels_url: string;
+  comments_url: string;
+  events_url: string;
+  html_url: string;
+  number: number;
+  state: string;
+  title: string;
+  body: string;
+  user: IghRepoOwner;
+  labels: IghLabel[];
+  assignee: IghRepoOwner;
+  assignees: IghRepoOwner[];
+  milestone: IghMilestone;
+  locked: false;
+  comments: number;
+  pull_request: IghPull;
+  closed_at: string;
+  created_at: string;
+  updated_at: string;
+  repository: IghRepo;
+}

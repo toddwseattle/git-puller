@@ -19,6 +19,7 @@ import { AboutComponent } from './about/about.component';
 import { MatDesignModule } from './matdesign.module';
 import { DashComponent } from './dash/dash.component';
 import { RepotileComponent } from './repotile/repotile.component';
+import { ReporptComponent } from './reporpt/reporpt.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RepotileComponent } from './repotile/repotile.component';
     HomeComponent,
     AboutComponent,
     DashComponent,
-    RepotileComponent
+    RepotileComponent,
+    ReporptComponent
   ],
   imports: [
     BrowserModule,

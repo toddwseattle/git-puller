@@ -12,6 +12,7 @@
       <li>Owner: <a [href]="repo.owner.url">{{repo.owner.login}}</a></li>
       <li>Total Issues:<a [href]="repo.html_url+'/issues'"> {{repo.open_issues_count}}</a></li>
       <li>Updated: {{repo.updated_at}}</li>
+      <li><a [routerLink]="['/status',repo.owner.login,repo.name]">Status Report</a></li>
     </ul>  
   </mat-card-content>
   <mat-card-actions>

@@ -142,10 +142,18 @@ export class GhReporgService {
       });
     }
     GetUpdatedRepos(repos: IghRepo[]): Observable<IghRepo[]> {
-      if (!repos) {return Observable.of(null); } else {
+      if (!repos || !this.token) {return Observable.of(null); } else {
+        const hddrs = this.jsonheader.append('Authorization', 'token ' + this.token);
         return Observable.from(repos)
-          .mergeMap(r => <Observable<IghRepo>> this.http.get(r.url))
+          .mergeMap(r => <Observable<IghRepo>> this.http.get(r.url, {headers: hddrs}))
           .scan((rs, r) => rs.concat(r), []);
+      }
+    }
+    GetRepo(loginname: string, repo: string): Observable<IghRepo> {
+      if (!loginname || !repo || !this.token) { return Observable.of(null); } else {
+        const command = this.GITAPI + '/repos/' + loginname + '/' + repo;
+        const hddrs = this.jsonheader.append('Authorization', 'token ' + this.token);
+        return this.http.get<IghRepo>(command, {headers: hddrs});
       }
     }
 }

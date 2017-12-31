@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { IghOrg, IghRepo, IghRepoOwner } from '../core/ghobjects';
 
 @Component({
@@ -9,7 +10,7 @@ import { IghOrg, IghRepo, IghRepoOwner } from '../core/ghobjects';
 export class RepotileComponent implements OnInit {
   @Input() repo: IghRepo;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }

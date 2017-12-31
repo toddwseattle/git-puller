@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { IUser, IGHUser } from './user';
 import 'rxjs/Observable';
-import { IghRepo } from './ghobjects';
+import { IghRepo, IghIssue, IghMilestone, IghLabel } from './ghobjects';
 import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class GhIssuesService {
@@ -24,15 +24,16 @@ export class GhIssuesService {
     });
    }
 
-  getLastWeekIssues(repo: IghRepo) {
+  getLastWeekIssues(repo: IghRepo): Observable<IghIssue[]> {
     // need to get the issues ts; and get the issues
     //
     const now = Date.now();
-    const startdate = (new Date((now - (7 * 24  * 60 * 60)))).toISOString();
-    const rUrl = repo.issues_url;
+    const startdate = (new Date((now - (7 * 24 * 60 * 60 * 1000)))).toISOString();
+    const rend = repo.issues_url.indexOf('{');
+    const rUrl = repo.issues_url.slice(0,rend);
     const rh = new HttpHeaders({'Authorization' : 'token ' + this.token});
     const rp = new HttpParams().set('since', startdate).append('per_page', '100');
-    return this.http.get(rUrl, {headers: rh, params: rp});
+    return this.http.get<IghIssue[]>(rUrl, {headers: rh, params: rp});
   }
 
 
