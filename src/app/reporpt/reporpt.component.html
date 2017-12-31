@@ -1,0 +1,14 @@
+<p>
+  reporpt works! {{loginName}} / {{repo}}
+</p>
+<ul>
+    <li>{{ghRepo?.description}} {{($ghRepo | async)?.description}}</li>
+    <li>Size: {{ghRepo?.size}}</li>
+    <li>Private: {{ghRepo?.private}}</li>
+</ul>
+<button mat-button (click)="getLastWeekIssues()">Get Last Week</button>
+<div>
+  <ul>
+    <li *ngFor="let i of ($ghWeekIssues | async)">{{i | json}}</li>
+  </ul>
+</div>  
