@@ -30,7 +30,7 @@ export class GhIssuesService {
     const now = Date.now();
     const startdate = (new Date((now - (7 * 24 * 60 * 60 * 1000)))).toISOString();
     const rend = repo.issues_url.indexOf('{');
-    const rUrl = repo.issues_url.slice(0,rend);
+    const rUrl = repo.issues_url.slice(0, rend);
     const rh = new HttpHeaders({'Authorization' : 'token ' + this.token});
     const rp = new HttpParams().set('since', startdate).append('per_page', '100');
     return this.http.get<IghIssue[]>(rUrl, {headers: rh, params: rp});

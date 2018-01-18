@@ -1,3 +1,7 @@
 <div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
-  <div fxFlex="30%" *ngFor="let r of (DashRepos | async)"><app-repotile [repo]="r"></app-repotile></div>
+
+  <div *ngIf="DashRepos | async as dash">
+    <p>{{dash.length}}</p>
+    <div fxFlex="30%" *ngFor="let r of dash"><app-repotile [repo]="r"></app-repotile></div>
+</div>
 </div>
