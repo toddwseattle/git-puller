@@ -20,6 +20,7 @@ import { MatDesignModule } from './matdesign.module';
 import { DashComponent } from './dash/dash.component';
 import { RepotileComponent } from './repotile/repotile.component';
 import { ReporptComponent } from './reporpt/reporpt.component';
+import { IssueGridComponent } from './issue-grid/issue-grid.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ReporptComponent } from './reporpt/reporpt.component';
     AboutComponent,
     DashComponent,
     RepotileComponent,
-    ReporptComponent
+    ReporptComponent,
+    IssueGridComponent
   ],
   imports: [
     BrowserModule,

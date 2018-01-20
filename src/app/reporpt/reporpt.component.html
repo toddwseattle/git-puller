@@ -7,8 +7,6 @@
     <li>Private: {{ghRepo?.private}}</li>
 </ul>
 <button mat-button (click)="getLastWeekIssues()">Get Last Week</button>
-<div>
-  <ul>
-    <li *ngFor="let i of ($ghWeekIssues | async)">{{i | json}}</li>
-  </ul>
+<div *ngIf="($ghWeekIssues | async) let weekissues">
+<app-issue-grid [issues]="weekissues"></app-issue-grid>
 </div>  
