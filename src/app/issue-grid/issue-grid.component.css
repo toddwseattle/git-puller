@@ -1,0 +1,23 @@
+.col-center {
+    align-items: center;
+}
+.col-left {
+    align-items: left;
+}
+.col-right {
+    align-items: right
+}
+.col-name {
+    flex: 0 0 10%;
+    display: flex;
+}
+.col-title {
+    flex: 0 0 30%;
+    display: flex; 
+}
+.col-date {
+    flex: 0 0 15%;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 5px
+}

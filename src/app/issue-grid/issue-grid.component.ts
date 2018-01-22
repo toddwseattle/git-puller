@@ -68,7 +68,8 @@ export class IssueDataSource extends DataSource<any> {
 
       switch (this._sort.active) {
         case 'assignee': [propertyA, propertyB] =
-         [a.assignee != null ? a.assignee.login : null  , a.assignee != null ? a.assignee.login : null];
+         [a.assignee != null ? a.assignee.login : null  ,
+           b.assignee != null ? b.assignee.login : null];
          break;
         case 'openedBy': [propertyA, propertyB] = [a.user.login, b.user.login]; break;
         case 'title': [propertyA, propertyB] = [a.title.toUpperCase(), b.title.toUpperCase()]; break;

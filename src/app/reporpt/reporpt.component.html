@@ -1,12 +1,20 @@
-<p>
-  reporpt works! {{loginName}} / {{repo}}
-</p>
-<ul>
-    <li>{{ghRepo?.description}} {{($ghRepo | async)?.description}}</li>
-    <li>Size: {{ghRepo?.size}}</li>
-    <li>Private: {{ghRepo?.private}}</li>
+<h1>
+  {{loginName}} / {{repo}}
+</h1>
+<ul *ngIf="($ghRepo | async) let ghr ">
+    <li>{{ghr?.description}}</li>
+    <li>Size: {{ghr?.size}}</li>
+    <ng-container *ngIf="ghr?.private; else pubrepo">
+       <li>Private Repository</li>  
+    </ng-container>
+    <ng-template #pubrepo>
+      <li>Public Repository</li>
+    </ng-template>
+    
 </ul>
 <button mat-button (click)="getLastWeekIssues()">Get Last Week</button>
-<div *ngIf="($ghWeekIssues | async) let weekissues">
-<app-issue-grid [issues]="weekissues"></app-issue-grid>
+<div *ngIf="$ghWeekIssues | async as weekissues">
+  <p>If true!</p> 
+  <p *ngIf="weekissues==null">No issues yet</p>  
+  <app-issue-grid [issues]="weekissues"></app-issue-grid>
 </div>  

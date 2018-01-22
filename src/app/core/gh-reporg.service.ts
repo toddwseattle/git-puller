@@ -85,27 +85,28 @@ export class GhReporgService {
 
   constructor(private http: HttpClient, private as: AuthService) {
     this.user = this.as.user;
-    this.user.subscribe( (u: IUser) => {
-      if ( (u != null) && (u.ghAccessToken != null) ) {
-        this.token = u.ghAccessToken;
-        this.userName = u.ghUser.login;
-      } else {
-        this.token = null;
-      }
-    });
    }
-
+  private setTokenUserName(u: IUser) {
+    if ( (u != null) && (u.ghAccessToken != null) ) {
+      this.token = u.ghAccessToken;
+      this.userName = u.ghUser.login;
+    } else {
+      this.token = null;
+    }
+  }
   public GetOrgs(OrgUser?: string): Observable<IghOrg[]>  {
     const CURUSERORGS = '/user/orgs';
     const USERORGS = `/users/${OrgUser}/orgs`;
     let command = this.GITAPI;
     command += ((OrgUser == null) || (OrgUser === this.userName)) ?  CURUSERORGS  : USERORGS;
-    if (this.token) {
-      const x = this.http.get<IghOrg[]>(command,  {headers: this.jsonheader, params: {'access_token': this.token}});
-      return x;
-    } else {
-      return Observable.of<IghOrg[]>(null);
-    }
+      return this.user.switchMap(u => {
+        this.setTokenUserName(u);
+        if (this.token) {
+          return this.http.get<IghOrg[]>(command,  {headers: this.jsonheader, params: {'access_token': this.token}});
+        } else {
+          return Observable.of<IghOrg[]>(null);
+        }
+      });
 
   }
   private setDefaultParams(): HttpParams {
@@ -142,18 +143,36 @@ export class GhReporgService {
       });
     }
     GetUpdatedRepos(repos: IghRepo[]): Observable<IghRepo[]> {
-      if (!repos || !this.token) {return Observable.of(null); } else {
-        const hddrs = this.jsonheader.append('Authorization', 'token ' + this.token);
-        return Observable.from(repos)
-          .mergeMap(r => <Observable<IghRepo>> this.http.get(r.url, {headers: hddrs}))
-          .scan((rs, r) => rs.concat(r), []);
+      if (!repos) {
+        return Observable.of(null);
+      } else {
+        return this.user.switchMap(u => {
+          this.setTokenUserName(u);
+          if (this.token) {
+            const hddrs = this.jsonheader.append('Authorization', 'token ' + this.token);
+            return Observable.from(repos)
+              .mergeMap(r => <Observable<IghRepo>> this.http.get(r.url, {headers: hddrs}))
+              .scan((rs, r) => rs.concat(r), []);
+          } else {
+            return Observable.of(null);
+          }
+        });
       }
     }
     GetRepo(loginname: string, repo: string): Observable<IghRepo> {
-      if (!loginname || !repo || !this.token) { return Observable.of(null); } else {
-        const command = this.GITAPI + '/repos/' + loginname + '/' + repo;
-        const hddrs = this.jsonheader.append('Authorization', 'token ' + this.token);
-        return this.http.get<IghRepo>(command, {headers: hddrs});
+      if (!loginname || !repo) {
+        return Observable.of(null);
+      } else {
+        return this.user.switchMap(u => {
+        this.setTokenUserName(u);
+        if (this.token) {
+          const command = this.GITAPI + '/repos/' + loginname + '/' + repo;
+          const hddrs = this.jsonheader.append('Authorization', 'token ' + this.token);
+          return this.http.get<IghRepo>(command, {headers: hddrs});
+        } else {
+          return Observable.of(null);
+        }
+        });
       }
     }
 }
